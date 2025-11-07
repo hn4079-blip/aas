@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>당일일수.com</title>
+<style>
+body { font-family: sans-serif; background:#f0f6fa; padding:20px; }
+.container{ max-width:480px; margin:0 auto; background:white; padding:30px; border-radius:12px; }
+h1{ text-align:center; margin-bottom:20px; }
+label{ display:block; margin-top:15px; font-weight:600; }
+input,select{ width:100%; padding:14px; border:1px solid #ccc; border-radius:8px; margin-top:6px; font-size:16px; }
+button{ width:100%; padding:16px; margin-top:30px; font-size:18px; border-radius:10px; border:none; background:#007bff; color:white; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>당일일수.com</h1>
+
+<form id="form">
+<label>성함</label>
+<input name="name" required>
+
+<label>연락처</label>
+<input name="phone" placeholder="예) 010-1234-5678" required>
+
+<label>직업</label>
+<select name="job" required>
+<option value="">선택하세요</option>
+<option>직장인</option>
+<option>전문직</option>
+<option>공무원</option>
+<option>자영업자</option>
+<option>프리랜서</option>
+<option>주부</option>
+<option>학생</option>
+<option>기타</option>
+<option>무직</option>
+</select>
+
+<label>지역</label>
+<input name="area" placeholder="시/구/동을 입력 해주세요." required>
+
+<label>희망금액</label>
+<input name="amount" placeholder="만원 단위로 입력 해주세요." required>
+
+<button type="submit">대출문의</button>
+</form>
+</div>
+
+<script>
+document.getElementById('form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    let text = "";
+    fd.forEach((v,k)=>{ text += k + ": " + v + "\n"; });
+
+    await fetch("https://api.telegram.org/bot8504075418:AAE5tVjJ5q7OxGdqADGWjeUMf3i6fdkrYwM/sendMessage", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            chat_id:"7010882280",
+            text
+        })
+    });
+
+    alert("전송 완료되었습니다.");
+    e.target.reset();
+});
+</script>
+</body>
+</html>
