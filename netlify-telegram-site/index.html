@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>당일일수.com</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f6f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 360px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #222;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #006ae6;
+    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: gray;
+      margin-top: 20px;
+    }
+    footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>당일일수.com</h1>
+    <form id="loanForm">
+      <input type="text" name="name" placeholder="성함" required />
+      <input type="tel" name="phone" placeholder="예) 010-1234-5678" required />
+      <select name="job" required>
+        <option value="">직업 선택</option>
+        <option>자영업</option>
+        <option>직장인</option>
+        <option>프리랜서</option>
+        <option>기타</option>
+      </select>
+      <input type="text" name="region" placeholder="시/구/동을 입력 해주세요" required />
+      <input type="number" name="amount" placeholder="희망금액 (만원 단위)" required />
+      <button type="submit">대출문의</button>
+    </form>
+    <footer>
+      © 2025 민팡마케팅<br />
+      <a href="#">광고제작문의</a>
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('loanForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      const res = await fetch('/.netlify/functions/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert('문의가 정상적으로 접수되었습니다. 감사합니다.');
+        form.reset();
+      } else {
+        alert('전송 실패. 다시 시도해주세요.');
+      }
+    });
+  </script>
+</body>
+</html>
